@@ -1,4 +1,4 @@
-import mysql.connector 
+import mysql.connector
 import re
 
 # USERS
@@ -307,6 +307,7 @@ if __name__ == "__main__":
     #sql Database
     cur.execute("use todo")
 
-    
+    #test the add user function
+    add_user(11111111111, "tom", "password", "tom@icloud.com", "587-585-7953")
 
     cnx.close()
