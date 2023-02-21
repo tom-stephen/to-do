@@ -142,6 +142,79 @@ def update_stat(task_ID, stat):
     else:
         print("Error: updating a task status failed")
 
+def update_task_desc(task_ID, desc):
+    ok = True
+    # check if task_ID exists
+    query = "SELECT task_ID FROM TASKS WHERE task_ID = %s"
+    values = (task_ID)
+    cur.execute(query, values)
+    if cur.fetchone() is None:
+        ok = False
+    #  check is description is less than 1000 characters
+    if len(desc) > 1000:
+        desc = desc[:1000]
+    if(ok == True):
+        query = "UPDATE TASKS SET description = %s WHERE task_ID = %s" 
+        values = (desc, task_ID)
+        cur.execute(query, values)
+        cnx.commit()
+    else:
+        print("Error: updating a task description failed")
+
+def update_task_due(task_ID, due_date):
+
+    ok = True
+    # check if task_ID exists
+    query = "SELECT task_ID FROM TASKS WHERE task_ID = %s"
+    values = (task_ID)
+    cur.execute(query, values)
+    if cur.fetchone() is None:
+        ok = False
+    #  check if date is 4 numbers then a dask then 2 numbers then a dash then 2 numbers
+    if not re.match(r"^\d{4}-\d{2}-\d{2}$", due_date):
+        due_date = "0000-00-00"
+    if(ok == True):
+        query = "UPDATE TASKS SET due_date = %s WHERE task_ID = %s" 
+        values = (due_date, task_ID)
+        cur.execute(query, values)
+        cnx.commit()
+    else:
+        print("Error: updating a task due date failed")
+
+def update_task_priority(task_ID, priority):
+    ok = True
+    # check if task_ID exists
+    query = "SELECT task_ID FROM TASKS WHERE task_ID = %s"
+    values = (task_ID)
+    cur.execute(query, values)
+    if cur.fetchone() is None:
+        ok = False
+    #  check if priority is a num
+    if not priority.isdigit():
+        ok = False
+    if(ok == True):
+        query = "UPDATE TASKS SET priority = %s WHERE task_ID = %s" 
+        values = (priority, task_ID)
+        cur.execute(query, values)
+        cnx.commit()
+    else:
+        print("Error: updating a task priority failed")
+
+def delete_task(task_ID):
+    ok = True
+    # check if task_ID exists
+    query = "SELECT task_ID FROM TASKS WHERE task_ID = %s"
+    values = (task_ID)
+    cur.execute(query, values)
+    if cur.fetchone() is None:
+        ok = False
+    if(ok == True):
+        query = "DELETE FROM TASKS WHERE task_ID = %s" 
+        values = (task_ID)
+        cur.execute(query, values)
+        cnx.commit()
+    else:
+        print("Error: deleting a task failed")
 
 if __name__ == "__main__":
   
