@@ -34,6 +34,29 @@ CREATE TABLE TASKS (
         ON UPDATE CASCADE on DELETE CASCADE
 );
 
+-- teames table
+DROP TABLE IF EXISTS TEAMS;
+CREATE TABLE TEAMS (
+    team_ID       int(11)         NOT NULL    AUTO_INCREMENT,
+    team_name     varchar(255)    NOT NULL,
+    team_leader   int(11)         NOT NULL,
+    PRIMARY KEY (team_ID),
+    CONSTRAINT team_ID_UNI UNIQUE(team_ID)
+);
+
+-- team members table
+DROP TABLE IF EXISTS TEAM_MEMBERS;
+CREATE TABLE TEAM_MEMBERS (
+    team_ID       int(11)         NOT NULL,
+    user_ID       int(11)         NOT NULL,
+    PRIMARY KEY (team_ID, user_ID),
+    FOREIGN KEY (team_ID) REFERENCES TEAMS(team_ID)         
+        ON UPDATE CASCADE on DELETE CASCADE,
+    FOREIGN KEY (user_ID) REFERENCES USERS(ID)         
+        ON UPDATE CASCADE on DELETE CASCADE
+);
+
+
 -- CREATING ROLES
 DROP ROLE IF EXISTS db_admin@localhost, read_access@localhost;
 CREATE ROLE db_admin@localhost, read_access@localhost;
