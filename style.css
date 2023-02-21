@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins");
+/* @import url("https://fonts.googleapis.com/css2?family=Poppins"); */
 
 * {
     box-sizing: border-box;
@@ -7,7 +7,7 @@
 body {
     display: flex;
     background-color: #f6f5f7;
-    justify-content: conter;
+    justify-content: center;
     align-items: center;
     flex-direction: column;
     font-family: "Poppins", sans-serif;
@@ -156,6 +156,7 @@ input {
     padding: 12px 15px;
     margin: 8px 0;
     width: 100%;
+    outline-color: #013727;
 }
 
 .container {

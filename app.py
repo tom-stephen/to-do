@@ -1,6 +1,7 @@
 import mysql.connector 
 import re
 
+# USERS
 def add_user(ID, username, password, email, pnumber):
     ok = True
     # check if ID is unique
@@ -34,7 +35,8 @@ def delete_user(ID):
     else:
         print("Error: deleting a user failed")
 
-def add_team(ID, teamname, leader, teamdescription):
+# TEAMS
+def create_empty_team(ID, teamname, leader, teamdescription):
     ok = True
     # check if team_ID is unique
     query = "SELECT team_ID FROM TEAMS WHERE team_ID = %s"
@@ -72,6 +74,78 @@ def delete_team(ID):
     else:
         print("Error: deleting a team failed")
 
+def add_teammembers(team_ID, user_ID):
+    ok = True
+    # check if team_ID exists
+    query = "SELECT team_ID FROM TEAMS WHERE team_ID = %s"
+    values = (team_ID)
+    cur.execute(query, values)
+    if cur.fetchone() is None:
+        ok = False
+    # check if user_ID exists
+    query = "SELECT ID FROM USERS WHERE ID = %s"
+    values = (user_ID)
+    cur.execute(query, values)
+    if cur.fetchone() is None:
+        ok = False
+    if(ok == True):
+        query = "INSERT INTO TEAM_MEMBERS (team_ID, user_ID) VALUES (%s, %s)" 
+        values = (team_ID, user_ID)
+        cur.execute(query, values)
+        cnx.commit()
+    else:
+        print("Error: inserting a team member failed")
+
+def delete_teammembers(team_ID, user_ID):
+    ok = True
+    # check if team_ID exists
+    query = "SELECT team_ID FROM TEAMS WHERE team_ID = %s"
+    values = (team_ID)
+    cur.execute(query, values)
+    if cur.fetchone() is None:
+        ok = False
+    # check if user_ID exists
+    query = "SELECT ID FROM USERS WHERE ID = %s"
+    values = (user_ID)
+    cur.execute(query, values)
+    if cur.fetchone() is None:
+        ok = False
+    if(ok == True):
+        query = "DELETE FROM TEAM_MEMBERS WHERE team_ID = %s AND user_ID = %s" 
+        values = (team_ID, user_ID)
+        cur.execute(query, values)
+        cnx.commit()
+    else:
+        print("Error: deleting a team member failed")
+
+def add_teamleader(team_ID, user_ID):
+    ok = True
+    # check if team_ID exists
+    query = "SELECT team_ID FROM TEAMS WHERE team_ID = %s"
+    values = (team_ID)
+    cur.execute(query, values)
+    if cur.fetchone() is None:
+        ok = False
+    # check if user_ID exists
+    query = "SELECT ID FROM USERS WHERE ID = %s"
+    values = (user_ID)
+    cur.execute(query, values)
+    if cur.fetchone() is None:
+        ok = False
+    if(ok == True):
+        query = "UPDATE TEAMS SET team_leader = %s WHERE team_ID = %s" 
+        values = (user_ID, team_ID)
+        cur.execute(query, values)
+        cnx.commit()
+    else:
+        print("Error: adding a team leader failed")
+
+def create_team_with_members(ID, teamname, leader, teamdescription, members):
+    create_empty_team(ID, teamname, leader, teamdescription)
+    for member in members:
+        add_teammembers(ID, member)
+
+# TASKS
 def add_task(ID, user_ID, title, desc, stat, due_date, priority):
     ok = True
     super_ok = True
