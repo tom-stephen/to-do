@@ -10,7 +10,7 @@ CREATE TABLE USERS (
     ID            int(11)         NOT NULL    AUTO_INCREMENT,
     username      varchar(255)    NOT NULL,
     password      varchar(255)    NOT NULL,
-    email         varchar(255)    NOT NULL,
+    email         varchar(255),
     pnumber       int(10)         NOT NULL,
     created_at    timestamp       NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at    timestamp       NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -24,8 +24,10 @@ CREATE TABLE TASKS (
     task_ID       int(11)         NOT NULL    AUTO_INCREMENT,
     user_ID       int(11)         NOT NULL,
     title         varchar(255)    NOT NULL,
-    description   varchar(255)    NOT NULL,
-    status        varchar(255)    NOT NULL,
+    description   varchar(1000),
+    status        varchar(255),
+    due_date      date,
+    priority      varchar(255),
     created_at    timestamp       NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at    timestamp       NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (task_ID),
@@ -39,7 +41,8 @@ DROP TABLE IF EXISTS TEAMS;
 CREATE TABLE TEAMS (
     team_ID       int(11)         NOT NULL    AUTO_INCREMENT,
     team_name     varchar(255)    NOT NULL,
-    team_leader   int(11)         NOT NULL,
+    team_leader   int(11),
+    team_desc     varchar(400),
     PRIMARY KEY (team_ID),
     CONSTRAINT team_ID_UNI UNIQUE(team_ID)
 );
